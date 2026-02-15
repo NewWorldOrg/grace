@@ -1,22 +1,35 @@
-import { Alert, Box, Button, Container, Header } from '@cloudscape-design/components'
+'use client'
 
+import {
+  Alert,
+  Box,
+  Button,
+  Container,
+  Header,
+} from '@cloudscape-design/components'
+import { loginPathWithReturnToURL } from 'utils/urls'
 
-export default function LoginRequired() {
+export default function LoginRequired({
+  returnTo,
+}: {
+  returnTo?: string
+}) {
   return (
-      <Container header={<Header variant='h2'>ログイン</Header>}>
-          <Alert header='ログインしてください' type='warning'>
-              ログインが必要です。
-          </Alert>
-          <Box padding='xxxl' textAlign='center'>
-              <Button
-                ariaLabel='ログインページへ'
-                iconAlign='left'
-                iconName='key'
-                variant='primary'
-              >
-                  ログインページへ
-              </Button>
-          </Box>
-      </Container>
-    )
+    <Container header={<Header variant="h2">ログイン</Header>}>
+      <Alert header="ログインしてください" type="warning">
+        このページを表示するにはログインが必要です。
+      </Alert>
+      <Box padding="xxxl" textAlign="center">
+        <Button
+          href={loginPathWithReturnToURL(returnTo ?? '/dashboard')}
+          ariaLabel="ログインページへ"
+          iconAlign="left"
+          iconName="key"
+          variant="primary"
+        >
+          ログインページへ
+        </Button>
+      </Box>
+    </Container>
+  )
 }
