@@ -11,7 +11,8 @@
     "prettier:check": "prettier --check --ignore-path .gitignore './**/*.{js,jsx,ts,tsx,json,css}'",
     "typecheck": "tsc --noEmit",
     "storybook": "storybook dev -p 6006 --no-open",
-    "build-storybook": "storybook build"
+    "build-storybook": "storybook build",
+    "codegen": "openapi-typescript libs/api/schema/sophia-swagger.json -o libs/api/generated/sophia.ts --default-non-nullable --properties-required-by-default"
   },
   "dependencies": {
     "@cloudscape-design/components": "^3.0.1167",
@@ -24,6 +25,7 @@
     "axios": "^1.13.2",
     "dayjs": "^1.11.19",
     "next": "16.1.1",
+    "openapi-fetch": "^0.17.0",
     "prettier": "^3.7.4",
     "react": "^19.2.3",
     "react-dom": "^19.2.3",
@@ -39,6 +41,7 @@
     "eslint": "^9.39.2",
     "eslint-config-next": "16.1.1",
     "eslint-plugin-storybook": "^10.2.8",
+    "openapi-typescript": "^7.13.0",
     "storybook": "^10.2.8",
     "typescript": "^5.9.3"
   }

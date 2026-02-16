@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { getCurrentUser } from 'libs/api/user'
-import { getNextHeaderFromRequestOnlyCookie } from 'libs/next/headers'
+import { createServerApiClient } from 'client/serverApiClient'
+import { userRepository } from 'repository/userRepository'
 
 function redirectToLoginPage(request: NextRequest) {
   const returnTo = request.nextUrl.pathname + request.nextUrl.search
@@ -10,8 +10,9 @@ function redirectToLoginPage(request: NextRequest) {
 }
 
 export async function middleware(request: NextRequest) {
-  const headers = getNextHeaderFromRequestOnlyCookie(request)
-  const currentUser = await getCurrentUser(headers)
+  const cookie = request.headers.get('cookie') ?? ''
+  const apiClient = createServerApiClient({ cookie })
+  const currentUser = await userRepository.getCurrentUser(apiClient)
 
   if (!currentUser) {
     return redirectToLoginPage(request)
