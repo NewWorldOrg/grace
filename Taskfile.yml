@@ -32,3 +32,5 @@ tasks:
     cmd: docker compose exec grace yarn run prettier:check
   prettier:
     cmd: docker compose exec grace yarn run prettier
+  codegen:
+    cmd: docker compose exec grace yarn codegen
