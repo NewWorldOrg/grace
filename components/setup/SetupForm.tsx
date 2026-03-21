@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import {
   Box,
@@ -13,6 +13,7 @@ import {
   KeyValuePairs,
   SpaceBetween,
 } from '@cloudscape-design/components'
+import type { InputProps } from '@cloudscape-design/components'
 import styled from '@emotion/styled'
 import { useApiClient } from 'client/apiClient'
 import { userRepository } from 'repository/userRepository'
@@ -29,10 +30,12 @@ export default function SetupForm({ email }: { email?: string }) {
   const [name, setName] = useState('')
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
+  const nameInputRef = useRef<InputProps.Ref>(null)
 
   const handleSubmit = async () => {
     if (!name.trim()) {
-      setError('名前を入力してください')
+      setError('表示名を入力してください')
+      nameInputRef.current?.focus()
       return
     }
 
@@ -64,39 +67,48 @@ export default function SetupForm({ email }: { email?: string }) {
             </SpaceBetween>
           </Box>
           <Container header={<Header variant="h2">プロフィール設定</Header>}>
-            <Form
-              actions={
-                <Box float="right">
-                  <Button
-                    variant="primary"
-                    loading={loading}
-                    onClick={handleSubmit}
-                  >
-                    はじめる
-                  </Button>
-                </Box>
-              }
-              errorText={error}
+            <form
+              onSubmit={(e) => {
+                e.preventDefault()
+                handleSubmit()
+              }}
             >
-              <SpaceBetween size="m">
-                {email && (
-                  <KeyValuePairs
-                    items={[{ label: 'メールアドレス', value: email }]}
-                  />
-                )}
-                <FormField
-                  label="表示名"
-                  description="アプリ内で使用される名前です"
-                >
-                  <Input
-                    value={name}
-                    onChange={({ detail }) => setName(detail.value)}
-                    placeholder="例：太郎"
-                    disabled={loading}
-                  />
-                </FormField>
-              </SpaceBetween>
-            </Form>
+              <Form
+                actions={
+                  <Box float="right">
+                    <Button
+                      variant="primary"
+                      loading={loading}
+                      formAction="submit"
+                    >
+                      はじめる
+                    </Button>
+                  </Box>
+                }
+                errorText={error}
+              >
+                <SpaceBetween size="l">
+                  {email && (
+                    <KeyValuePairs
+                      items={[{ label: 'メールアドレス', value: email }]}
+                    />
+                  )}
+                  <FormField
+                    label="表示名"
+                    description="アプリ内で使用される名前です"
+                  >
+                    <Input
+                      ref={nameInputRef}
+                      value={name}
+                      onChange={({ detail }) => setName(detail.value)}
+                      placeholder="例：太郎"
+                      disabled={loading}
+                      autoFocus
+                    />
+                  </FormField>
+                </SpaceBetween>
+              </Form>
+            </form>
           </Container>
         </SpaceBetween>
       </Wrapper>

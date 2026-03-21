@@ -20,7 +20,20 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
             activeHref={pathname}
             header={{ href: '/dashboard', text: 'Grace' }}
             items={[
-              { type: 'link', text: '服薬履歴', href: '/dashboard' },
+              {
+                type: 'expandable-link-group',
+                text: '服薬指導室',
+                href: '/dashboard',
+                items: [
+                  { type: 'link', text: 'ダッシュボード', href: '/dashboard' },
+                  {
+                    type: 'link',
+                    text: '服薬履歴',
+                    href: '/medication/history',
+                  },
+                ],
+              },
+              { type: 'divider' },
               { type: 'link', text: '設定', href: '/settings' },
             ]}
           />
