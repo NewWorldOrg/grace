@@ -1,6 +1,12 @@
 'use client'
 
-import { useState, useCallback, useRef } from 'react'
+import {
+  useState,
+  useCallback,
+  useRef,
+  useEffect,
+  useSyncExternalStore,
+} from 'react'
 import styled from '@emotion/styled'
 import {
   AppLayout,
@@ -12,6 +18,7 @@ import {
 import { usePathname, useRouter } from 'next/navigation'
 
 const SIDEBAR_WIDTH = 280
+const MOBILE_BREAKPOINT = 768
 
 const ShellContainer = styled.div`
   display: flex;
@@ -30,6 +37,10 @@ const SidebarPanel = styled.nav`
   display: flex;
   flex-direction: column;
   overflow: hidden;
+
+  @media (max-width: ${MOBILE_BREAKPOINT}px) {
+    display: none;
+  }
 `
 
 const SidebarHeader = styled.div`
@@ -45,7 +56,6 @@ const SidebarBody = styled.div`
   overflow-y: auto;
 `
 
-/* 閉じた状態で左端にホバーゾーンを置く */
 const HoverEdge = styled.div`
   position: fixed;
   top: 0;
@@ -53,6 +63,10 @@ const HoverEdge = styled.div`
   width: 24px;
   height: 100vh;
   z-index: 300;
+
+  @media (max-width: ${MOBILE_BREAKPOINT}px) {
+    display: none;
+  }
 `
 
 const Overlay = styled.div`
@@ -77,12 +91,22 @@ const Overlay = styled.div`
       transform: translateX(0);
     }
   }
+
+  @media (max-width: ${MOBILE_BREAKPOINT}px) {
+    width: 85vw;
+    max-width: ${SIDEBAR_WIDTH}px;
+  }
 `
 
 const OverlayBackdrop = styled.div`
   position: fixed;
   inset: 0;
   z-index: 300;
+  background: rgba(0, 0, 0, 0.3);
+
+  @media (min-width: ${MOBILE_BREAKPOINT + 1}px) {
+    background: transparent;
+  }
 `
 
 const MainArea = styled.div`
@@ -110,6 +134,30 @@ const TopNavWrapper = styled.div`
   min-width: 0;
 `
 
+const mobileQuery = `(max-width: ${MOBILE_BREAKPOINT}px)`
+
+function subscribeToMobile(callback: () => void) {
+  const mq = window.matchMedia(mobileQuery)
+  mq.addEventListener('change', callback)
+  return () => mq.removeEventListener('change', callback)
+}
+
+function getIsMobileSnapshot() {
+  return window.matchMedia(mobileQuery).matches
+}
+
+function getIsMobileServerSnapshot() {
+  return false
+}
+
+function useIsMobile() {
+  return useSyncExternalStore(
+    subscribeToMobile,
+    getIsMobileSnapshot,
+    getIsMobileServerSnapshot,
+  )
+}
+
 interface AppShellProps {
   children: React.ReactNode
   user?: {
@@ -126,6 +174,7 @@ export default function AppShell({
 }: AppShellProps) {
   const pathname = usePathname()
   const router = useRouter()
+  const isMobile = useIsMobile()
   const [hydrated, setHydrated] = useState(false)
   const [sidebarOpen, setSidebarOpen] = useState(true)
   const [overlayVisible, setOverlayVisible] = useState(false)
@@ -135,8 +184,6 @@ export default function AppShell({
     if (node) setHydrated(true)
   }, [])
 
-  // Cloudscape TopNavigation は .awsui-context-top-navigation で
-  // 強制ダーク色を適用する。このクラスを除去してテーマに追従させる。
   const topNavRef = useCallback((node: HTMLDivElement | null) => {
     if (!node) return
     const observer = new MutationObserver(() => {
@@ -144,7 +191,6 @@ export default function AppShell({
         el.classList.remove('awsui-context-top-navigation')
       })
     })
-    // 初回除去
     node.querySelectorAll('.awsui-context-top-navigation').forEach((el) => {
       el.classList.remove('awsui-context-top-navigation')
     })
@@ -180,6 +226,10 @@ export default function AppShell({
   const handleOverlayEnter = useCallback(() => {
     clearHoverTimer()
   }, [clearHoverTimer])
+
+  // モバイルではサイドバーは常にオーバーレイモード
+  const showSidebarInline = sidebarOpen && !isMobile
+  const showMenuButton = !showSidebarInline
 
   const activeHref = pathname.startsWith('/medication/drugs')
     ? '/medication/drugs'
@@ -220,9 +270,21 @@ export default function AppShell({
     />
   )
 
+  const openMobileMenu = useCallback(() => {
+    setOverlayVisible(true)
+  }, [])
+
+  const handleMenuButtonClick = useCallback(() => {
+    if (isMobile) {
+      openMobileMenu()
+    } else {
+      setSidebarOpen(true)
+    }
+  }, [isMobile, openMobileMenu])
+
   return (
     <ShellContainer ref={shellRef} data-hydrated={hydrated}>
-      {sidebarOpen && (
+      {showSidebarInline && (
         <SidebarPanel>
           <SidebarHeader>
             <Button
@@ -235,29 +297,37 @@ export default function AppShell({
         </SidebarPanel>
       )}
 
-      {!sidebarOpen && !overlayVisible && (
+      {!isMobile && !sidebarOpen && !overlayVisible && (
         <HoverEdge
           onMouseEnter={handleEdgeEnter}
           onMouseLeave={() => clearHoverTimer()}
         />
       )}
 
-      {!sidebarOpen && overlayVisible && (
+      {overlayVisible && (
         <>
           <OverlayBackdrop onClick={() => setOverlayVisible(false)} />
           <Overlay
-            onMouseEnter={handleOverlayEnter}
-            onMouseLeave={handleOverlayLeave}
+            onMouseEnter={!isMobile ? handleOverlayEnter : undefined}
+            onMouseLeave={!isMobile ? handleOverlayLeave : undefined}
           >
             <SidebarHeader>
-              <Button
-                iconName="angle-right-double"
-                variant="icon"
-                onClick={() => {
-                  setSidebarOpen(true)
-                  setOverlayVisible(false)
-                }}
-              />
+              {isMobile ? (
+                <Button
+                  iconName="close"
+                  variant="icon"
+                  onClick={() => setOverlayVisible(false)}
+                />
+              ) : (
+                <Button
+                  iconName="angle-right-double"
+                  variant="icon"
+                  onClick={() => {
+                    setSidebarOpen(true)
+                    setOverlayVisible(false)
+                  }}
+                />
+              )}
             </SidebarHeader>
             <SidebarBody>{sideNav}</SidebarBody>
           </Overlay>
@@ -266,12 +336,12 @@ export default function AppShell({
 
       <MainArea>
         <TopBar>
-          {!sidebarOpen && (
+          {showMenuButton && (
             <MenuButton>
               <Button
                 iconName="menu"
                 variant="icon"
-                onClick={() => setSidebarOpen(true)}
+                onClick={handleMenuButtonClick}
               />
             </MenuButton>
           )}
