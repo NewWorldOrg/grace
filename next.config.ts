@@ -19,6 +19,10 @@ const nextConfig: NextConfig = {
         source: '/api/:path*',
         destination: `${process.env.SSR_API_BASE_PATH}/api/:path*`,
       },
+      {
+        source: '/auth0/:path*',
+        destination: `${process.env.SSR_API_BASE_PATH}/auth0/:path*`,
+      },
     ]
   },
 }
