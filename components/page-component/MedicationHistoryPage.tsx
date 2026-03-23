@@ -1,9 +1,10 @@
 'use client'
 
-import { useCallback } from 'react'
+import { useCallback, useState } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
-import { Header, SpaceBetween } from '@cloudscape-design/components'
+import { Button, Header, SpaceBetween } from '@cloudscape-design/components'
 import MedicationHistoryTable from 'components/medication/MedicationHistoryTable'
+import CreateMedicationHistoryModal from 'components/medication/CreateMedicationHistoryModal'
 import DiscordLinkPrompt from 'components/common/DiscordLinkPrompt'
 
 const PAGE_SIZE_COOKIE = 'grace-medication-history-page-size'
@@ -20,6 +21,11 @@ interface MedicationRecord {
   hasNote?: boolean
 }
 
+interface Drug {
+  id: string
+  name: string
+}
+
 interface MedicationHistoryPageProps {
   items: MedicationRecord[]
   currentPage: number
@@ -27,6 +33,7 @@ interface MedicationHistoryPageProps {
   perPage: number
   total: number
   discordLinked?: boolean
+  drugs?: Drug[]
 }
 
 const MOCK_ITEMS: MedicationRecord[] = [
@@ -44,9 +51,11 @@ export default function MedicationHistoryPage({
   perPage,
   total,
   discordLinked,
+  drugs = [],
 }: MedicationHistoryPageProps) {
   const router = useRouter()
   const searchParams = useSearchParams()
+  const [modalVisible, setModalVisible] = useState(false)
 
   const navigateWithParams = useCallback(
     (page: number, pageSize?: number) => {
@@ -75,6 +84,17 @@ export default function MedicationHistoryPage({
     [navigateWithParams],
   )
 
+  const handleCreated = useCallback(() => {
+    setModalVisible(false)
+    router.refresh()
+  }, [router])
+
+  const createButton = drugs.length > 0 && (
+    <Button variant="primary" onClick={() => setModalVisible(true)}>
+      服薬を記録
+    </Button>
+  )
+
   if (discordLinked === false) {
     return (
       <SpaceBetween size="l">
@@ -96,7 +116,9 @@ export default function MedicationHistoryPage({
 
   return (
     <SpaceBetween size="l">
-      <Header variant="h1">服薬履歴</Header>
+      <Header variant="h1" actions={createButton}>
+        服薬履歴
+      </Header>
       <MedicationHistoryTable
         items={items}
         currentPage={currentPage}
@@ -105,6 +127,12 @@ export default function MedicationHistoryPage({
         total={total}
         onPageChange={handlePageChange}
         onPageSizeChange={handlePageSizeChange}
+      />
+      <CreateMedicationHistoryModal
+        visible={modalVisible}
+        onDismiss={() => setModalVisible(false)}
+        onCreated={handleCreated}
+        drugs={drugs}
       />
     </SpaceBetween>
   )

@@ -38,6 +38,28 @@ export const medicationRepository = {
     return true
   },
 
+  async createMedicationHistory(
+    apiClient: ClientType,
+    body: { drugId: number; amount: number; medicationDate: string },
+  ) {
+    try {
+      const result = await apiClient.POST('/api/medication-histories', {
+        body,
+      })
+      if (result.error) {
+        console.error(
+          '[medicationRepository] createMedicationHistory error:',
+          result.error,
+        )
+        return false
+      }
+      return true
+    } catch (e) {
+      console.error('[medicationRepository] createMedicationHistory exception:', e)
+      return false
+    }
+  },
+
   async getMedicationHistory(apiClient: ClientType, id: number) {
     try {
       const result = await apiClient.GET('/api/medication-histories/{id}', {

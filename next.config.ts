@@ -13,6 +13,14 @@ const nextConfig: NextConfig = {
     '@blocknote/react',
     '@blocknote/mantine',
   ],
+  async rewrites() {
+    return [
+      {
+        source: '/api/:path*',
+        destination: `${process.env.SSR_API_BASE_PATH}/api/:path*`,
+      },
+    ]
+  },
 }
 
 export default nextConfig
