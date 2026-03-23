@@ -1,6 +1,7 @@
 import { cookies } from 'next/headers'
 import { createServerApiClient } from 'client/serverApiClient'
 import { medicationRepository } from 'repository/medicationRepository'
+import { drugRepository } from 'repository/drugRepository'
 import AppShell from 'components/layout/AppShell'
 import MedicationHistoryPage from 'components/page-component/MedicationHistoryPage'
 import { getServerUser } from 'libs/server/getServerUser'
@@ -25,11 +26,10 @@ export default async function PageMedicationHistory({
 
   const user = await getServerUser()
   const apiClient = createServerApiClient({ cookie })
-  const data = await medicationRepository.getMedicationHistories(
-    apiClient,
-    page,
-    perPage,
-  )
+  const [data, drugData] = await Promise.all([
+    medicationRepository.getMedicationHistories(apiClient, page, perPage),
+    drugRepository.getDrugs(apiClient, 1, 1000),
+  ])
 
   const items = (data?.data ?? []).map((h) => ({
     id: String(h.id),
@@ -37,6 +37,11 @@ export default async function PageMedicationHistory({
     amount: h.amount,
     takenAt: (h.createdAt ?? '').replace('T', ' ').substring(0, 16),
     hasNote: !!h.note,
+  }))
+
+  const drugs = (drugData?.data ?? []).map((d) => ({
+    id: String(d.id),
+    name: d.name ?? '',
   }))
 
   return (
@@ -48,6 +53,7 @@ export default async function PageMedicationHistory({
         perPage={data?.perPage ?? perPage}
         total={data?.total ?? 0}
         discordLinked={!!user?.discordUserId}
+        drugs={drugs}
       />
     </AppShell>
   )
