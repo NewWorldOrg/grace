@@ -102,21 +102,13 @@ export default function CreateMedicationHistoryModal({
     onDismiss()
   }, [reset, onDismiss])
 
-  const filledEntries = entries.filter(
-    (e) => e.drugId !== '' && e.amount !== '',
+  const validEntries = entries.filter(
+    (e) => e.drugId !== '' && e.amount !== '' && Number(e.amount) > 0,
   )
 
   const handleSubmit = useCallback(async () => {
-    const submittable = entries.filter(
-      (e) =>
-        e.drugId !== '' &&
-        e.amount !== '' &&
-        !isNaN(Number(e.amount)) &&
-        Number(e.amount) > 0,
-    )
-
-    if (submittable.length === 0) {
-      setError('薬と有効な服薬量を入力してください')
+    if (validEntries.length === 0) {
+      setError('薬と服薬量を入力してください')
       return
     }
 
@@ -126,7 +118,7 @@ export default function CreateMedicationHistoryModal({
     const now = new Date().toISOString()
     let allSuccess = true
 
-    for (const entry of submittable) {
+    for (const entry of validEntries) {
       const success = await medicationRepository.createMedicationHistory(
         apiClient,
         {
@@ -149,7 +141,7 @@ export default function CreateMedicationHistoryModal({
     } else {
       setError('登録に失敗しました。もう一度お試しください。')
     }
-  }, [apiClient, entries, reset, onCreated])
+  }, [apiClient, validEntries, reset, onCreated])
 
   return (
     <Modal
@@ -167,10 +159,10 @@ export default function CreateMedicationHistoryModal({
               variant="primary"
               loading={submitting}
               onClick={handleSubmit}
-              disabled={filledEntries.length === 0}
+              disabled={validEntries.length === 0}
             >
-              {filledEntries.length > 1
-                ? `${filledEntries.length}件を記録`
+              {validEntries.length > 1
+                ? `${validEntries.length}件を記録`
                 : '記録する'}
             </Button>
           </SpaceBetween>
