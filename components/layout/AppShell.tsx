@@ -45,17 +45,17 @@ const SidebarPanel = styled.nav`
   }
 `
 
-const SidebarHeader = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  padding: 8px;
-  flex-shrink: 0;
-`
-
 const SidebarBody = styled.div`
+  position: relative;
   flex: 1;
   overflow-y: auto;
+`
+
+const CollapseButton = styled.div`
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  z-index: 1;
 `
 
 const HoverEdge = styled.div`
@@ -190,7 +190,15 @@ export default function AppShell({
   const isMobile = useIsMobile()
   const { mode, toggleMode } = useTheme()
   const [hydrated, setHydrated] = useState(false)
-  const [sidebarOpen, setSidebarOpen] = useState(true)
+  const [sidebarOpen, setSidebarOpenState] = useState(() => {
+    if (typeof document === 'undefined') return true
+    return !document.cookie.includes('grace-sidebar-open=false')
+  })
+
+  const setSidebarOpen = useCallback((open: boolean) => {
+    setSidebarOpenState(open)
+    document.cookie = `grace-sidebar-open=${open}; path=/; max-age=${60 * 60 * 24 * 365}; SameSite=Lax`
+  }, [])
   const [overlayVisible, setOverlayVisible] = useState(false)
   const hoverTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
 
@@ -293,20 +301,22 @@ export default function AppShell({
     } else {
       setSidebarOpen(true)
     }
-  }, [isMobile])
+  }, [isMobile, setSidebarOpen])
 
   return (
     <ShellContainer ref={shellRef} data-hydrated={hydrated}>
       {showSidebarInline && (
         <SidebarPanel>
-          <SidebarHeader>
-            <Button
-              iconName="angle-left-double"
-              variant="icon"
-              onClick={() => setSidebarOpen(false)}
-            />
-          </SidebarHeader>
-          <SidebarBody>{sideNav}</SidebarBody>
+          <SidebarBody>
+            <CollapseButton>
+              <Button
+                iconName="angle-left-double"
+                variant="icon"
+                onClick={() => setSidebarOpen(false)}
+              />
+            </CollapseButton>
+            {sideNav}
+          </SidebarBody>
         </SidebarPanel>
       )}
 
@@ -324,25 +334,27 @@ export default function AppShell({
             onMouseEnter={!isMobile ? handleOverlayEnter : undefined}
             onMouseLeave={!isMobile ? handleOverlayLeave : undefined}
           >
-            <SidebarHeader>
-              {isMobile ? (
-                <Button
-                  iconName="close"
-                  variant="icon"
-                  onClick={() => setOverlayVisible(false)}
-                />
-              ) : (
-                <Button
-                  iconName="angle-right-double"
-                  variant="icon"
-                  onClick={() => {
-                    setSidebarOpen(true)
-                    setOverlayVisible(false)
-                  }}
-                />
-              )}
-            </SidebarHeader>
-            <SidebarBody>{sideNav}</SidebarBody>
+            <SidebarBody>
+              <CollapseButton>
+                {isMobile ? (
+                  <Button
+                    iconName="close"
+                    variant="icon"
+                    onClick={() => setOverlayVisible(false)}
+                  />
+                ) : (
+                  <Button
+                    iconName="angle-right-double"
+                    variant="icon"
+                    onClick={() => {
+                      setSidebarOpen(true)
+                      setOverlayVisible(false)
+                    }}
+                  />
+                )}
+              </CollapseButton>
+              {sideNav}
+            </SidebarBody>
           </Overlay>
         </>
       )}
