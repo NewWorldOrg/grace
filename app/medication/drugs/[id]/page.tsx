@@ -1,4 +1,4 @@
-import { cookies } from 'next/headers'
+import { getCookieString } from 'libs/next/headers'
 import { createServerApiClient } from 'client/serverApiClient'
 import { drugRepository } from 'repository/drugRepository'
 import AppShell from 'components/layout/AppShell'
@@ -13,12 +13,7 @@ export default async function PageDrugDetail({
 }) {
   const { id } = await params
   const user = await getServerUser()
-  const cookieStore = await cookies()
-  const cookie = cookieStore
-    .getAll()
-    .map((c) => `${c.name}=${c.value}`)
-    .join('; ')
-
+  const cookie = await getCookieString()
   const apiClient = createServerApiClient({ cookie })
   const drug = await drugRepository.getDrug(apiClient, Number(id))
 
