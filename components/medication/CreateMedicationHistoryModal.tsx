@@ -100,9 +100,11 @@ export default function CreateMedicationHistoryModal({
     return !isEmpty && !isComplete
   })
 
-  const hasEmptyEntry = entries.length > 1 && entries.some(
-    (e) => e.drugId === '' && (e.amount === '' || Number(e.amount) <= 0),
-  )
+  const hasEmptyEntry =
+    entries.length > 1 &&
+    entries.some(
+      (e) => e.drugId === '' && (e.amount === '' || Number(e.amount) <= 0),
+    )
 
   const handleSubmit = useCallback(async () => {
     if (validEntries.length === 0) {
