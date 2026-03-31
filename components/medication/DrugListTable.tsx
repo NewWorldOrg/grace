@@ -35,7 +35,6 @@ export default function DrugListTable({
   return (
     <PaginatedTable
       title="薬一覧"
-      maxHeight="calc(100vh - 250px)"
       columnDefinitions={[
         {
           id: 'name',

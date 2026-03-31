@@ -1,4 +1,4 @@
-import { cookies } from 'next/headers'
+import { getCookieString } from 'libs/next/headers'
 import { createServerApiClient } from 'client/serverApiClient'
 import { medicationRepository } from 'repository/medicationRepository'
 import AppShell from 'components/layout/AppShell'
@@ -13,12 +13,7 @@ export default async function PageMedicationHistoryDetail({
 }) {
   const { id } = await params
   const user = await getServerUser()
-  const cookieStore = await cookies()
-  const cookie = cookieStore
-    .getAll()
-    .map((c) => `${c.name}=${c.value}`)
-    .join('; ')
-
+  const cookie = await getCookieString()
   const apiClient = createServerApiClient({ cookie })
   const history = await medicationRepository.getMedicationHistory(
     apiClient,

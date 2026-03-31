@@ -38,7 +38,6 @@ export default function MedicationHistoryTable({
   return (
     <PaginatedTable
       title="履歴一覧"
-      maxHeight="calc(100vh - 250px)"
       columnDefinitions={[
         {
           id: 'name',
