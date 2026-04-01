@@ -34,7 +34,6 @@ interface PaginatedTableProps<T> {
   onPageChange: (page: number) => void
   onPageSizeChange: (pageSize: number) => void
   onRowClick?: (item: T) => void
-  maxHeight?: string
 }
 
 export default function PaginatedTable<T>({
@@ -52,10 +51,9 @@ export default function PaginatedTable<T>({
   onPageChange,
   onPageSizeChange,
   onRowClick,
-  maxHeight,
 }: PaginatedTableProps<T>) {
   return (
-    <Card>
+    <Card className="flex min-h-0 flex-1 flex-col">
       <CardHeader className="flex-row items-center justify-between">
         <CardTitle>
           {title} ({total})
@@ -101,11 +99,8 @@ export default function PaginatedTable<T>({
           </div>
         </div>
       </CardHeader>
-      <CardContent className="p-0">
-        <div
-          className="overflow-y-auto"
-          style={maxHeight ? { maxHeight } : undefined}
-        >
+      <CardContent className="min-h-0 flex-1 p-0">
+        <div className="h-full overflow-auto [&>[data-slot=table-container]]:overflow-visible">
           <DataTable
             columnDefinitions={columnDefinitions}
             items={items}

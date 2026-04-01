@@ -99,7 +99,7 @@ export default function MedicationHistoryPage({
 
   if (discordLinked === false) {
     return (
-      <div className="flex flex-col gap-5">
+      <div className="flex h-full flex-col gap-5">
         <h1 className="text-2xl font-bold">服薬履歴</h1>
         <DiscordLinkPrompt>
           <MedicationHistoryTable
@@ -117,7 +117,7 @@ export default function MedicationHistoryPage({
   }
 
   return (
-    <div className="flex flex-col gap-5">
+    <div className="flex h-full flex-col gap-5">
       <div className="flex items-center justify-between">
         <h1 className="text-2xl font-bold">服薬履歴</h1>
         {drugs.length > 0 && (
