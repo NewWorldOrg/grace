@@ -4,6 +4,7 @@ import { medicationRepository } from 'repository/medicationRepository'
 import AppShell from 'components/layout/AppShell'
 import MedicationHistoryDetailPage from 'components/page-component/MedicationHistoryDetailPage'
 import { getServerUser } from 'libs/server/getServerUser'
+import { getInitialSidebarOpen } from 'libs/server/getInitialSidebarOpen'
 import { notFound } from 'next/navigation'
 
 export default async function PageMedicationHistoryDetail({
@@ -13,6 +14,7 @@ export default async function PageMedicationHistoryDetail({
 }) {
   const { id } = await params
   const user = await getServerUser()
+  const initialSidebarOpen = await getInitialSidebarOpen()
   const cookie = await getCookieString()
   const apiClient = createServerApiClient({ cookie })
   const history = await medicationRepository.getMedicationHistory(
@@ -27,6 +29,7 @@ export default async function PageMedicationHistoryDetail({
   return (
     <AppShell
       user={user ?? undefined}
+      initialSidebarOpen={initialSidebarOpen}
       breadcrumbs={[
         { text: '服薬履歴', href: '/medication/history' },
         {

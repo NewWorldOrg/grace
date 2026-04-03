@@ -6,6 +6,7 @@ import { drugRepository } from 'repository/drugRepository'
 import AppShell from 'components/layout/AppShell'
 import MedicationHistoryPage from 'components/page-component/MedicationHistoryPage'
 import { getServerUser } from 'libs/server/getServerUser'
+import { getInitialSidebarOpen } from 'libs/server/getInitialSidebarOpen'
 
 const DEFAULT_PAGE_SIZE = 25
 
@@ -24,6 +25,7 @@ export default async function PageMedicationHistory({
     DEFAULT_PAGE_SIZE
 
   const user = await getServerUser()
+  const initialSidebarOpen = await getInitialSidebarOpen()
   const cookie = await getCookieString()
   const apiClient = createServerApiClient({ cookie })
   const [data, drugData] = await Promise.all([
@@ -45,7 +47,7 @@ export default async function PageMedicationHistory({
   }))
 
   return (
-    <AppShell user={user ?? undefined}>
+    <AppShell user={user ?? undefined} initialSidebarOpen={initialSidebarOpen}>
       <MedicationHistoryPage
         items={items}
         currentPage={data?.currentPage ?? 1}
