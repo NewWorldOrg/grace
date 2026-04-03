@@ -124,8 +124,9 @@ export const userRepository = {
 `middleware.ts` で以下を処理:
 
 1. テーマ Cookie 読み取り → `x-theme-mode` リクエストヘッダー設定
-2. 認証チェック (API 経由でユーザー取得)
-3. 未登録ユーザーの `/setup` リダイレクト
+2. サイドバー Cookie 読み取り → `x-sidebar-open` リクエストヘッダー設定
+3. 認証チェック (API 経由でユーザー取得)
+4. 未登録ユーザーの `/setup` リダイレクト
 
 ### テーマ (ダークモード)
 
@@ -137,7 +138,7 @@ export const userRepository = {
 
 ### AppShell レイアウトシフト対策
 
-`AppShell` で ref コールバックを使い、hydration 完了まで `opacity: 0` で非表示にしてシフトを防止。
+サイドバーの開閉状態は Cookie (`grace-sidebar-open`) で永続化される。Middleware が Cookie を読み取り `x-sidebar-open` リクエストヘッダーに設定し、Server Component が `getInitialSidebarOpen()` で読み取って `AppShell` に `initialSidebarOpen` prop として渡す。これにより SSR 時点で正しい初期値が確定し、hydration 不一致によるレイアウトシフトを防止する (ThemeProvider と同一パターン)。
 
 ## コンポーネント設計
 

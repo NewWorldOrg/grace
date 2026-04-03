@@ -11,8 +11,10 @@ function redirectToLoginPage(request: NextRequest) {
 
 export async function middleware(request: NextRequest) {
   const themeMode = request.cookies.get('grace-theme-mode')?.value ?? 'light'
+  const sidebarOpen = request.cookies.get('grace-sidebar-open')?.value ?? 'true'
   const requestHeaders = new Headers(request.headers)
   requestHeaders.set('x-theme-mode', themeMode === 'dark' ? 'dark' : 'light')
+  requestHeaders.set('x-sidebar-open', sidebarOpen === 'false' ? 'false' : 'true')
 
   if (
     request.nextUrl.pathname.match(/^\/(dashboard|settings|medication)(\/|$)/)

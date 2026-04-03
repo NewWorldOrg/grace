@@ -4,6 +4,7 @@ import { drugRepository } from 'repository/drugRepository'
 import AppShell from 'components/layout/AppShell'
 import DrugDetailPage from 'components/page-component/DrugDetailPage'
 import { getServerUser } from 'libs/server/getServerUser'
+import { getInitialSidebarOpen } from 'libs/server/getInitialSidebarOpen'
 import { notFound } from 'next/navigation'
 
 export default async function PageDrugDetail({
@@ -13,6 +14,7 @@ export default async function PageDrugDetail({
 }) {
   const { id } = await params
   const user = await getServerUser()
+  const initialSidebarOpen = await getInitialSidebarOpen()
   const cookie = await getCookieString()
   const apiClient = createServerApiClient({ cookie })
   const drug = await drugRepository.getDrug(apiClient, Number(id))
@@ -24,6 +26,7 @@ export default async function PageDrugDetail({
   return (
     <AppShell
       user={user ?? undefined}
+      initialSidebarOpen={initialSidebarOpen}
       breadcrumbs={[
         { text: '薬一覧', href: '/medication/drugs' },
         { text: drug.name ?? '薬詳細', href: `/medication/drugs/${id}` },

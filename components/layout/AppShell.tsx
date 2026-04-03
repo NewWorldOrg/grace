@@ -1,6 +1,6 @@
 'use client'
 
-import { Fragment, useState, useCallback, useSyncExternalStore } from 'react'
+import { useState, useCallback, useSyncExternalStore, Fragment } from 'react'
 import { usePathname, useRouter } from 'next/navigation'
 import Link from 'next/link'
 import {
@@ -103,36 +103,26 @@ interface AppShellProps {
     iconUrl: string | null
   }
   breadcrumbs?: { text: string; href: string }[]
+  initialSidebarOpen?: boolean
 }
 
 export default function AppShell({
   children,
   user,
   breadcrumbs,
+  initialSidebarOpen = true,
 }: AppShellProps) {
   const pathname = usePathname()
   const router = useRouter()
   const isMobile = useIsMobile()
   const { mode, toggleMode } = useTheme()
-  const [hydrated, setHydrated] = useState(false)
-  const [sidebarOpen, setSidebarOpenState] = useState(true)
+  const [sidebarOpen, setSidebarOpenState] = useState(initialSidebarOpen)
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [groupOpen, setGroupOpen] = useState(true)
 
   const setSidebarOpen = useCallback((open: boolean) => {
     setSidebarOpenState(open)
     document.cookie = `grace-sidebar-open=${open}; path=/; max-age=31536000`
-  }, [])
-
-  const shellRef = useCallback((node: HTMLElement | null) => {
-    if (!node) return
-    const cookie = document.cookie
-      .split('; ')
-      .find((c) => c.startsWith('grace-sidebar-open='))
-    if (cookie && cookie.split('=')[1] === 'false') {
-      setSidebarOpenState(false)
-    }
-    setHydrated(true)
   }, [])
 
   const activeHref = pathname.startsWith('/medication/drugs')
@@ -208,14 +198,12 @@ export default function AppShell({
   )
 
   return (
-    <div
-      ref={shellRef}
-      className={cn('flex h-screen', !hydrated && 'opacity-0')}
-    >
+    <div className="flex h-screen">
       {/* Desktop sidebar — expanded or collapsed icon rail */}
       <aside
         className={cn(
-          'hidden md:flex flex-col shrink-0 border-r bg-[var(--sidebar-background)] text-[var(--sidebar-foreground)] overflow-hidden transition-[width] duration-200',
+          'hidden md:flex flex-col shrink-0 border-r bg-[var(--sidebar-background)] text-[var(--sidebar-foreground)] overflow-hidden',
+          'transition-[width] duration-200',
         )}
         style={{ width: sidebarOpen ? SIDEBAR_WIDTH : SIDEBAR_COLLAPSED_WIDTH }}
       >
