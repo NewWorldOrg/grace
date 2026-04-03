@@ -24,7 +24,7 @@ function TableHeader({ className, ...props }: React.ComponentProps<'thead'>) {
     <thead
       data-slot="table-header"
       className={cn(
-        'sticky top-0 z-10 bg-background [&_tr]:border-b',
+        'sticky top-0 z-10 bg-card [&_tr]:border-b',
         className,
       )}
       {...props}
