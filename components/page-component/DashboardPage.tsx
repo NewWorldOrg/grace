@@ -33,7 +33,7 @@ interface MedicationHistory {
   id: number
   drugName: string
   amount: number
-  createdAt: string
+  medicationDate: string
 }
 
 interface DashboardPageProps {
@@ -62,7 +62,7 @@ function filterByPeriod(histories: MedicationHistory[], days: string) {
   if (days === 'all') return histories
   const cutoff = new Date()
   cutoff.setDate(cutoff.getDate() - Number(days))
-  return histories.filter((h) => new Date(h.createdAt) >= cutoff)
+  return histories.filter((h) => new Date(h.medicationDate) >= cutoff)
 }
 
 // --- 日別服薬回数 ---
@@ -70,7 +70,7 @@ function filterByPeriod(histories: MedicationHistory[], days: string) {
 function buildDailyCount(histories: MedicationHistory[]) {
   const map = new Map<string, number>()
   for (const h of histories) {
-    const date = h.createdAt.substring(0, 10)
+    const date = h.medicationDate.substring(0, 10)
     map.set(date, (map.get(date) ?? 0) + 1)
   }
   return [...map.entries()]
@@ -84,7 +84,7 @@ function buildDailyCountByDrug(histories: MedicationHistory[]) {
   const drugs = [...new Set(histories.map((h) => h.drugName))]
   const map = new Map<string, Record<string, number>>()
   for (const h of histories) {
-    const date = h.createdAt.substring(0, 10)
+    const date = h.medicationDate.substring(0, 10)
     if (!map.has(date)) map.set(date, {})
     const day = map.get(date)!
     day[h.drugName] = (day[h.drugName] ?? 0) + 1
@@ -112,7 +112,7 @@ function buildDrugBreakdown(histories: MedicationHistory[]) {
 function buildHourlyDistribution(histories: MedicationHistory[]) {
   const map = new Map<number, number>()
   for (const h of histories) {
-    const match = h.createdAt.match(/T(\d{2})/)
+    const match = h.medicationDate.match(/T(\d{2})/)
     if (match) {
       const hour = Number(match[1])
       map.set(hour, (map.get(hour) ?? 0) + 1)
@@ -146,7 +146,7 @@ function buildWeeklyCountByDrug(histories: MedicationHistory[]) {
   >()
 
   for (const h of histories) {
-    const monday = getMonday(new Date(h.createdAt))
+    const monday = getMonday(new Date(h.medicationDate))
     const key = monday.getTime()
     if (!map.has(key)) {
       const sunday = new Date(monday)
@@ -321,7 +321,7 @@ function RecentHistoryTable({ histories }: { histories: MedicationHistory[] }) {
     id: String(h.id),
     name: h.drugName,
     amount: h.amount,
-    takenAt: h.createdAt.replace('T', ' ').substring(0, 16),
+    takenAt: h.medicationDate.replace('T', ' ').substring(0, 16),
   }))
 
   return (
@@ -373,7 +373,7 @@ const MOCK_HISTORIES: MedicationHistory[] = Array.from(
       id: i + 1,
       drugName: ['レボチロキシン', 'ロキソプロフェン', 'アムロジピン'][i % 3],
       amount: [50, 60, 5][i % 3],
-      createdAt: date.toISOString(),
+      medicationDate: date.toISOString(),
     }
   },
 )

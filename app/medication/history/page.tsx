@@ -37,7 +37,7 @@ export default async function PageMedicationHistory({
     id: String(h.id),
     name: h.drugName ?? '',
     amount: h.amount,
-    takenAt: (h.createdAt ?? '').replace('T', ' ').substring(0, 16),
+    takenAt: (h.medicationDate ?? '').replace('T', ' ').substring(0, 16),
     hasNote: !!h.note,
   }))
 

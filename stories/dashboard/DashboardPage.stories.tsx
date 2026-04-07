@@ -30,7 +30,7 @@ const generateHistories = () => {
       id: i + 1,
       drugName: drugs[drugIndex],
       amount: amounts[drugIndex],
-      createdAt: date.toISOString(),
+      medicationDate: date.toISOString(),
     }
   })
 }

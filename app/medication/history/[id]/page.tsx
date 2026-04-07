@@ -46,7 +46,7 @@ export default async function PageMedicationHistoryDetail({
           drugUrl: history.drugUrl ?? '',
           amount: history.amount,
           note: history.note ?? null,
-          createdAt: history.createdAt ?? '',
+          medicationDate: history.medicationDate ?? '',
           updatedAt: history.updatedAt ?? '',
         }}
       />

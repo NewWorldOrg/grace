@@ -835,6 +835,10 @@
           "updatedAt": {
             "type": "string",
             "nullable": true
+          },
+          "medicationDate": {
+            "type": "string",
+            "nullable": true
           }
         },
         "additionalProperties": false

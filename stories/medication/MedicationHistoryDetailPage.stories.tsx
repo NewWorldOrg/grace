@@ -30,7 +30,7 @@ const sampleHistory = {
       content: [{ type: 'text', text: '朝食前に水で服用。体調良好。' }],
     },
   ]),
-  createdAt: '2026-03-23T07:30:00',
+  medicationDate: '2026-03-23T07:30:00',
   updatedAt: '2026-03-23T07:30:00',
 }
 

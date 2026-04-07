@@ -646,6 +646,7 @@ export interface components {
       note: string | null
       createdAt: string | null
       updatedAt: string | null
+      medicationDate: string | null
     }
     MedicationHistoryListResult: {
       /** Format: int32 */

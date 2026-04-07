@@ -30,7 +30,7 @@ interface MedicationHistoryDetailPageProps {
     drugUrl: string
     amount: number
     note: string | null
-    createdAt: string
+    medicationDate: string
     updatedAt: string
   }
 }
@@ -117,7 +117,7 @@ export default function MedicationHistoryDetailPage({
             <div>
               <dt className="text-sm text-muted-foreground">服薬日時</dt>
               <dd className="text-sm mt-1">
-                {dayjs(history.createdAt).format('YYYY-MM-DD HH:mm')}
+                {dayjs(history.medicationDate).format('YYYY-MM-DD HH:mm')}
               </dd>
             </div>
             <div className="min-w-0">
