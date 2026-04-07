@@ -7,9 +7,7 @@
   "paths": {
     "/api/drugs": {
       "post": {
-        "tags": [
-          "CreateDrugAction"
-        ],
+        "tags": ["CreateDrugAction"],
         "requestBody": {
           "content": {
             "application/json": {
@@ -56,9 +54,7 @@
         }
       },
       "get": {
-        "tags": [
-          "GetDrugListAction"
-        ],
+        "tags": ["GetDrugListAction"],
         "parameters": [
           {
             "name": "page",
@@ -106,9 +102,7 @@
     },
     "/api/medication-histories": {
       "post": {
-        "tags": [
-          "CreateMedicationHistoryAction"
-        ],
+        "tags": ["CreateMedicationHistoryAction"],
         "requestBody": {
           "content": {
             "application/json": {
@@ -158,9 +152,7 @@
         }
       },
       "get": {
-        "tags": [
-          "GetMedicationHistoriesAction"
-        ],
+        "tags": ["GetMedicationHistoriesAction"],
         "parameters": [
           {
             "name": "page",
@@ -211,9 +203,7 @@
     },
     "/api/drugs/{id}": {
       "delete": {
-        "tags": [
-          "DeleteDrugAction"
-        ],
+        "tags": ["DeleteDrugAction"],
         "parameters": [
           {
             "name": "id",
@@ -252,9 +242,7 @@
         }
       },
       "get": {
-        "tags": [
-          "GetDrugDetailAction"
-        ],
+        "tags": ["GetDrugDetailAction"],
         "parameters": [
           {
             "name": "id",
@@ -293,9 +281,7 @@
         }
       },
       "put": {
-        "tags": [
-          "UpdateDrugAction"
-        ],
+        "tags": ["UpdateDrugAction"],
         "parameters": [
           {
             "name": "id",
@@ -355,9 +341,7 @@
     },
     "/api/medication-histories/{id}": {
       "delete": {
-        "tags": [
-          "DeleteMedicationHistoryAction"
-        ],
+        "tags": ["DeleteMedicationHistoryAction"],
         "parameters": [
           {
             "name": "id",
@@ -396,9 +380,7 @@
         }
       },
       "get": {
-        "tags": [
-          "GetMedicationHistoryDetailAction"
-        ],
+        "tags": ["GetMedicationHistoryDetailAction"],
         "parameters": [
           {
             "name": "id",
@@ -437,9 +419,7 @@
         }
       },
       "put": {
-        "tags": [
-          "UpdateMedicationHistoryAction"
-        ],
+        "tags": ["UpdateMedicationHistoryAction"],
         "parameters": [
           {
             "name": "id",
@@ -499,9 +479,7 @@
     },
     "/api/user": {
       "get": {
-        "tags": [
-          "GetUserAction"
-        ],
+        "tags": ["GetUserAction"],
         "responses": {
           "200": {
             "description": "OK",
@@ -531,9 +509,7 @@
     },
     "/api/user/register": {
       "post": {
-        "tags": [
-          "RegisterUserAction"
-        ],
+        "tags": ["RegisterUserAction"],
         "requestBody": {
           "content": {
             "application/json": {
@@ -588,9 +564,7 @@
     },
     "/api/user/discord": {
       "delete": {
-        "tags": [
-          "UnlinkDiscordAction"
-        ],
+        "tags": ["UnlinkDiscordAction"],
         "responses": {
           "200": {
             "description": "OK",
@@ -625,10 +599,7 @@
   "components": {
     "schemas": {
       "CreateDrugRequest": {
-        "required": [
-          "drugName",
-          "url"
-        ],
+        "required": ["drugName", "url"],
         "type": "object",
         "properties": {
           "drugName": {
@@ -643,11 +614,7 @@
         "additionalProperties": false
       },
       "CreateMedicationHistoryRequest": {
-        "required": [
-          "amount",
-          "drugId",
-          "medicationDate"
-        ],
+        "required": ["amount", "drugId", "medicationDate"],
         "type": "object",
         "properties": {
           "drugId": {
@@ -925,9 +892,7 @@
         "additionalProperties": false
       },
       "RegisterUserRequest": {
-        "required": [
-          "name"
-        ],
+        "required": ["name"],
         "type": "object",
         "properties": {
           "name": {
@@ -977,10 +942,7 @@
         "additionalProperties": false
       },
       "UpdateDrugRequest": {
-        "required": [
-          "drugName",
-          "url"
-        ],
+        "required": ["drugName", "url"],
         "type": "object",
         "properties": {
           "drugName": {
@@ -999,9 +961,7 @@
         "additionalProperties": false
       },
       "UpdateMedicationHistoryRequest": {
-        "required": [
-          "amount"
-        ],
+        "required": ["amount"],
         "type": "object",
         "properties": {
           "amount": {
