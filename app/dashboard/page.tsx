@@ -21,7 +21,7 @@ export default async function PageDashboard() {
     id: h.id,
     drugName: h.drugName ?? '',
     amount: h.amount,
-    createdAt: h.createdAt ?? '',
+    medicationDate: h.medicationDate ?? '',
   }))
 
   return (

@@ -45,7 +45,7 @@ export default async function PageMedicationHistoryEdit({
           drugName: history.drugName ?? '',
           amount: history.amount,
           note: history.note ?? null,
-          createdAt: history.createdAt ?? '',
+          medicationDate: history.medicationDate ?? '',
         }}
       />
     </AppShell>

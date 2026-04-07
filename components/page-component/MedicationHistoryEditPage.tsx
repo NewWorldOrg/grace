@@ -17,7 +17,7 @@ interface MedicationHistoryEditPageProps {
     drugName: string
     amount: number
     note: string | null
-    createdAt: string
+    medicationDate: string
   }
 }
 
@@ -28,7 +28,7 @@ export default function MedicationHistoryEditPage({
   const apiClient = useApiClient()
   const [amount, setAmount] = useState(String(history.amount))
   const [medicationDate, setMedicationDate] = useState(
-    dayjs(history.createdAt).format('YYYY-MM-DDTHH:mm'),
+    dayjs(history.medicationDate).format('YYYY-MM-DDTHH:mm'),
   )
   const noteJsonRef = useRef<string | null>(history.note)
   const [submitting, setSubmitting] = useState(false)
