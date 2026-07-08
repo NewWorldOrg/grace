@@ -6,7 +6,7 @@ import storybook from 'eslint-plugin-storybook'
 
 const config = [
   {
-    ignores: ['.next/**', 'storybook-static/**', 'node_modules/**', 'scripts/**'],
+    ignores: ['.next/**', 'storybook-static/**', 'node_modules/**'],
   },
   ...fixupConfigRules(nextCoreWebVitals),
   ...fixupConfigRules(nextTypescript),
