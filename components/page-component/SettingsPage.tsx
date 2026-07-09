@@ -14,7 +14,7 @@ interface SettingsPageProps {
 }
 
 export default function SettingsPage({ userName }: SettingsPageProps) {
-  const { mode, toggleMode } = useTheme()
+  const { preference, setPreference } = useTheme()
 
   const apiClient = useApiClient()
   const [discordUserId, setDiscordUserId] = useState<string | null>(null)
@@ -52,7 +52,10 @@ export default function SettingsPage({ userName }: SettingsPageProps) {
     <div className="flex flex-col gap-5">
       <h1 className="text-2xl font-bold">設定</h1>
 
-      <DisplaySettings mode={mode} onToggle={toggleMode} />
+      <DisplaySettings
+        preference={preference}
+        onChangePreference={setPreference}
+      />
 
       <ExternalServiceSettings
         discordUserId={discordUserId}

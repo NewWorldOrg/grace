@@ -1,14 +1,28 @@
 import { Card, CardContent, CardHeader, CardTitle } from 'components/ui/card'
-import { Switch } from 'components/ui/switch'
+import { Label } from 'components/ui/label'
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from 'components/ui/select'
+import type { ThemePreference } from 'components/theme/ThemeProvider'
 
 interface DisplaySettingsProps {
-  mode: 'light' | 'dark'
-  onToggle: () => void
+  preference: ThemePreference
+  onChangePreference: (preference: ThemePreference) => void
 }
 
+const THEME_OPTIONS: { value: ThemePreference; label: string }[] = [
+  { value: 'light', label: 'ライト' },
+  { value: 'dark', label: 'ダーク' },
+  { value: 'system', label: 'システム' },
+]
+
 export default function DisplaySettings({
-  mode,
-  onToggle,
+  preference,
+  onChangePreference,
 }: DisplaySettingsProps) {
   return (
     <Card>
@@ -17,17 +31,24 @@ export default function DisplaySettings({
       </CardHeader>
       <CardContent>
         <div className="flex items-center gap-3">
-          <Switch
-            id="dark-mode"
-            checked={mode === 'dark'}
-            onCheckedChange={onToggle}
-          />
-          <label
-            htmlFor="dark-mode"
-            className="text-sm cursor-pointer select-none"
+          <Label htmlFor="theme-preference">テーマ</Label>
+          <Select
+            value={preference}
+            onValueChange={(value) =>
+              onChangePreference(value as ThemePreference)
+            }
           >
-            ダークモード
-          </label>
+            <SelectTrigger id="theme-preference" className="w-40">
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              {THEME_OPTIONS.map((option) => (
+                <SelectItem key={option.value} value={option.value}>
+                  {option.label}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
         </div>
       </CardContent>
     </Card>

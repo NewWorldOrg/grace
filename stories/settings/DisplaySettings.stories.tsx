@@ -1,11 +1,9 @@
 import type { Meta, StoryObj } from '@storybook/react'
 import DisplaySettings from '../../components/settings/DisplaySettings'
-import { withThemeProvider } from '../decorators'
 
 const meta = {
   title: 'Components/DisplaySettings',
   component: DisplaySettings,
-  decorators: [withThemeProvider],
   parameters: {
     layout: 'padded',
   },
@@ -14,16 +12,23 @@ const meta = {
 export default meta
 type Story = StoryObj<typeof meta>
 
-export const LightMode: Story = {
+export const Light: Story = {
   args: {
-    mode: 'light',
-    onToggle: () => {},
+    preference: 'light',
+    onChangePreference: () => {},
   },
 }
 
-export const DarkMode: Story = {
+export const Dark: Story = {
   args: {
-    mode: 'dark',
-    onToggle: () => {},
+    preference: 'dark',
+    onChangePreference: () => {},
+  },
+}
+
+export const System: Story = {
+  args: {
+    preference: 'system',
+    onChangePreference: () => {},
   },
 }

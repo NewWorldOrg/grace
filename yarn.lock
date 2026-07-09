@@ -2598,6 +2598,14 @@
   resolved "https://registry.yarnpkg.com/@standard-schema/utils/-/utils-0.3.0.tgz#3d5e608f16c2390c10528e98e59aef6bf73cae7b"
   integrity sha512-e7Mew686owMaPJVNNLs55PUvgz371nKgwsc4vxE49zsODpJEnxgxRo2y/OKrqueavXgZNMDVj3DdHFlaSAeU8g==
 
+"@storybook/addon-a11y@^10.2.8":
+  version "10.4.6"
+  resolved "https://registry.yarnpkg.com/@storybook/addon-a11y/-/addon-a11y-10.4.6.tgz#eb5acd538a711d1fa0529d3a46731de021149228"
+  integrity sha512-XCJy+f0DFOiCgUU9knRDlLDxVFI+AAQ3/wE/NF85zB9iDPPS2DwkSN+mas3zDgHt66zhN8Cq3/UiyCDUweV9Zw==
+  dependencies:
+    "@storybook/global" "^5.0.0"
+    axe-core "^4.2.0"
+
 "@storybook/builder-webpack5@10.4.6":
   version "10.4.6"
   resolved "https://registry.yarnpkg.com/@storybook/builder-webpack5/-/builder-webpack5-10.4.6.tgz#11b570c0cb084bb129a482043d3f3bc01d29d7eb"
@@ -3846,7 +3854,7 @@ available-typed-arrays@^1.0.7:
   dependencies:
     possible-typed-array-names "^1.0.0"
 
-axe-core@^4.10.0:
+axe-core@^4.10.0, axe-core@^4.2.0:
   version "4.12.1"
   resolved "https://registry.yarnpkg.com/axe-core/-/axe-core-4.12.1.tgz#69fe2bf6dfc0b24973af91b1d8e945f79e1b7c44"
   integrity sha512-s7iGf5GaVMxEG0ENN9x+xTr7GFZCb1ZP/1uATUpCEK2X78nDB3RwbtFCo9pGAf9ru+VwoQ464DkaLEeRM08wJA==

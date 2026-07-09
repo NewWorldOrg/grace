@@ -1,10 +1,33 @@
 import React, { useEffect } from 'react'
 import type { Preview } from '@storybook/react'
 import '../app/globals.css'
-import { ThemeProvider } from '../components/theme/ThemeProvider'
+import {
+  ThemeProvider,
+  type ThemePreference,
+} from '../components/theme/ThemeProvider'
+
+/**
+ * Storybook ツールバーの `theme` グローバルに応じて preview ドキュメントに
+ * `dark` クラスを適用し、ThemeProvider でラップする。実アプリでは SSR の
+ * layout が <html> に初期クラスを設定するが、Storybook に SSR は無いため
+ * ここで設定する。
+ */
+function WithTheme({
+  theme,
+  children,
+}: {
+  theme: ThemePreference
+  children: React.ReactNode
+}) {
+  useEffect(() => {
+    document.documentElement.classList.toggle('dark', theme === 'dark')
+  }, [theme])
+
+  return <ThemeProvider initialPreference={theme}>{children}</ThemeProvider>
+}
 
 const globalDecorators: Preview['decorators'] = [
-  (Story) => {
+  (Story, context) => {
     useEffect(() => {
       const handler = (e: MouseEvent) => {
         const anchor = (e.target as HTMLElement).closest('a[href]')
@@ -20,10 +43,13 @@ const globalDecorators: Preview['decorators'] = [
       document.addEventListener('click', handler, true)
       return () => document.removeEventListener('click', handler, true)
     }, [])
+
+    const theme: ThemePreference =
+      context.globals.theme === 'dark' ? 'dark' : 'light'
     return (
-      <ThemeProvider initialMode="light">
+      <WithTheme theme={theme}>
         <Story />
-      </ThemeProvider>
+      </WithTheme>
     )
   },
 ]
@@ -41,6 +67,25 @@ const preview: Preview = {
       appDirectory: true,
       navigation: {
         pathname: '/',
+      },
+    },
+    a11y: {
+      // a11y 違反は UI 上に表示するだけで、まだ実行は失敗させない
+      test: 'todo',
+    },
+  },
+  globalTypes: {
+    theme: {
+      description: 'テーマ',
+      defaultValue: 'light',
+      toolbar: {
+        title: 'Theme',
+        icon: 'sun',
+        items: [
+          { value: 'light', title: 'Light', icon: 'sun' },
+          { value: 'dark', title: 'Dark', icon: 'moon' },
+        ],
+        dynamicTitle: true,
       },
     },
   },

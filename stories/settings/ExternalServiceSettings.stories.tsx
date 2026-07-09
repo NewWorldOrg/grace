@@ -1,11 +1,9 @@
 import type { Meta, StoryObj } from '@storybook/react'
 import ExternalServiceSettings from '../../components/settings/ExternalServiceSettings'
-import { withThemeProvider } from '../decorators'
 
 const meta = {
   title: 'Components/ExternalServiceSettings',
   component: ExternalServiceSettings,
-  decorators: [withThemeProvider],
   parameters: {
     layout: 'padded',
   },
