@@ -27,8 +27,6 @@ import {
   ChevronDown,
   ChevronRight,
   User,
-  Sun,
-  Moon,
   Settings,
   LogOut,
   X,
@@ -36,7 +34,7 @@ import {
   Pill,
   ClipboardList,
 } from 'lucide-react'
-import { useTheme } from 'components/theme/ThemeProvider'
+import { ThemeToggle } from 'components/theme/ThemeToggle'
 import { cn } from '@/lib/utils'
 
 const SIDEBAR_WIDTH = 280
@@ -115,14 +113,13 @@ export default function AppShell({
   const pathname = usePathname()
   const router = useRouter()
   const isMobile = useIsMobile()
-  const { mode, toggleMode } = useTheme()
   const [sidebarOpen, setSidebarOpenState] = useState(initialSidebarOpen)
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [groupOpen, setGroupOpen] = useState(true)
 
   const setSidebarOpen = useCallback((open: boolean) => {
     setSidebarOpenState(open)
-    document.cookie = `grace-sidebar-open=${open}; path=/; max-age=31536000`
+    document.cookie = `grace-sidebar-open=${open}; path=/; max-age=31536000; SameSite=Lax`
   }, [])
 
   const activeHref = pathname.startsWith('/medication/drugs')
@@ -314,18 +311,7 @@ export default function AppShell({
           </Link>
           <div className="flex-1" />
           <div className="flex items-center gap-1">
-            <Button
-              variant="ghost"
-              size="icon-sm"
-              aria-label="テーマ切替"
-              onClick={toggleMode}
-            >
-              {mode === 'dark' ? (
-                <Sun className="size-4" />
-              ) : (
-                <Moon className="size-4" />
-              )}
-            </Button>
+            <ThemeToggle />
             {user && (
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>

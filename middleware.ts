@@ -10,10 +10,19 @@ function redirectToLoginPage(request: NextRequest) {
 }
 
 export async function middleware(request: NextRequest) {
-  const themeMode = request.cookies.get('grace-theme-mode')?.value ?? 'light'
+  // テーマ設定 Cookie を x-theme-mode ヘッダーとして転送し、layout が SSR 時点で
+  // 初期テーマを確定できるようにする。未設定・不明値は `system`（クライアントで
+  // prefers-color-scheme を解決）。
+  const themeCookie = request.cookies.get('grace-theme-mode')?.value
+  const themeMode =
+    themeCookie === 'dark' ||
+    themeCookie === 'light' ||
+    themeCookie === 'system'
+      ? themeCookie
+      : 'system'
   const sidebarOpen = request.cookies.get('grace-sidebar-open')?.value ?? 'true'
   const requestHeaders = new Headers(request.headers)
-  requestHeaders.set('x-theme-mode', themeMode === 'dark' ? 'dark' : 'light')
+  requestHeaders.set('x-theme-mode', themeMode)
   requestHeaders.set(
     'x-sidebar-open',
     sidebarOpen === 'false' ? 'false' : 'true',
@@ -53,5 +62,5 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ['/(dashboard|settings|medication)(/?.*)', '/setup'],
+  matcher: ['/((?!_next/static|_next/image|favicon.ico).*)'],
 }

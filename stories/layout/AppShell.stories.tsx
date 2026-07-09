@@ -1,6 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react'
 import AppShell from '../../components/layout/AppShell'
-import { withThemeProvider } from '../decorators'
 
 const sampleUser = {
   name: 'テストユーザー',
@@ -10,7 +9,6 @@ const sampleUser = {
 const meta = {
   title: 'Layout/AppShell',
   component: AppShell,
-  decorators: [withThemeProvider],
   parameters: {
     layout: 'fullscreen',
     nextjs: {
