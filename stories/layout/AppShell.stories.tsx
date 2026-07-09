@@ -29,7 +29,7 @@ export const Default: Story = {
   args: {
     children: (
       <div className="flex flex-col gap-5">
-        <h1 className="text-2xl font-bold">ダッシュボード</h1>
+        <p className="text-sm text-muted-foreground">コンテンツエリア</p>
       </div>
     ),
   },
@@ -46,7 +46,7 @@ export const DrugListActive: Story = {
   args: {
     children: (
       <div className="flex flex-col gap-5">
-        <h1 className="text-2xl font-bold">薬一覧</h1>
+        <p className="text-sm text-muted-foreground">コンテンツエリア</p>
       </div>
     ),
   },
@@ -85,7 +85,7 @@ export const MedicationHistoryActive: Story = {
   args: {
     children: (
       <div className="flex flex-col gap-5">
-        <h1 className="text-2xl font-bold">服薬履歴</h1>
+        <p className="text-sm text-muted-foreground">コンテンツエリア</p>
       </div>
     ),
   },
@@ -124,7 +124,7 @@ export const SettingsActive: Story = {
   args: {
     children: (
       <div className="flex flex-col gap-5">
-        <h1 className="text-2xl font-bold">設定</h1>
+        <p className="text-sm text-muted-foreground">コンテンツエリア</p>
       </div>
     ),
   },

@@ -381,7 +381,6 @@ const MOCK_HISTORIES: MedicationHistory[] = Array.from(
 function MockDashboardContent() {
   return (
     <div className="flex flex-col gap-5">
-      <h1 className="text-2xl font-bold">ダッシュボード</h1>
       <Card>
         <CardHeader>
           <CardTitle>服薬分析</CardTitle>
@@ -410,7 +409,6 @@ export default function DashboardPage({
   if (discordLinked === false) {
     return (
       <div className="flex flex-col gap-5">
-        <h1 className="text-2xl font-bold">ダッシュボード</h1>
         <DiscordLinkPrompt>
           <MockDashboardContent />
         </DiscordLinkPrompt>
@@ -420,8 +418,7 @@ export default function DashboardPage({
 
   return (
     <div className="flex flex-col gap-5">
-      <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold">ダッシュボード</h1>
+      <div className="flex items-center justify-end">
         <PeriodSelect value={period} onChange={setPeriod} />
       </div>
 
