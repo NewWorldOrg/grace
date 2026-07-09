@@ -23,7 +23,12 @@ function WithTheme({
     document.documentElement.classList.toggle('dark', theme === 'dark')
   }, [theme])
 
-  return <ThemeProvider initialPreference={theme}>{children}</ThemeProvider>
+  // key でツールバー切替時に remount し、Provider の state を初期化し直す
+  return (
+    <ThemeProvider key={theme} initialPreference={theme}>
+      {children}
+    </ThemeProvider>
+  )
 }
 
 const globalDecorators: Preview['decorators'] = [

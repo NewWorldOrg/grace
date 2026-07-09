@@ -119,7 +119,7 @@ export default function AppShell({
 
   const setSidebarOpen = useCallback((open: boolean) => {
     setSidebarOpenState(open)
-    document.cookie = `grace-sidebar-open=${open}; path=/; max-age=31536000`
+    document.cookie = `grace-sidebar-open=${open}; path=/; max-age=31536000; SameSite=Lax`
   }, [])
 
   const activeHref = pathname.startsWith('/medication/drugs')
