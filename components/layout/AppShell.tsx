@@ -206,7 +206,7 @@ export default function AppShell({
       >
         {sidebarOpen ? (
           <>
-            <div className="flex items-center justify-between px-4 py-3">
+            <div className="flex h-12 shrink-0 items-center justify-between px-4">
               <Link
                 href="/dashboard"
                 className="text-lg font-bold hover:opacity-80"
@@ -226,7 +226,7 @@ export default function AppShell({
           </>
         ) : (
           <>
-            <div className="flex items-center justify-center py-3">
+            <div className="flex h-12 shrink-0 items-center justify-center">
               <Button
                 variant="ghost"
                 size="icon-sm"
@@ -272,7 +272,7 @@ export default function AppShell({
               boxShadow: '0 0 16px rgba(0, 0, 0, 0.15)',
             }}
           >
-            <div className="flex items-center justify-between px-4 py-3">
+            <div className="flex h-12 shrink-0 items-center justify-between px-4">
               <span className="text-lg font-bold">Grace</span>
               <Button
                 variant="ghost"
