@@ -128,10 +128,16 @@ export default function DataTable<TData>({
               onKeyDown={
                 onRowClick
                   ? (e) => {
-                      if (e.key === 'Enter' || e.key === ' ') {
-                        e.preventDefault()
-                        onRowClick(row.original)
-                      }
+                      if (e.key !== 'Enter' && e.key !== ' ') return
+                      const target = e.target as HTMLElement
+                      if (
+                        target.closest(
+                          'a, button, input, select, textarea, [data-slot="checkbox"]',
+                        )
+                      )
+                        return
+                      e.preventDefault()
+                      onRowClick(row.original)
                     }
                   : undefined
               }
