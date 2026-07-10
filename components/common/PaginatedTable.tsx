@@ -8,7 +8,13 @@ import {
   SelectTrigger,
   SelectValue,
 } from 'components/ui/select'
-import { Card, CardContent, CardHeader, CardTitle } from 'components/ui/card'
+import {
+  Card,
+  CardContent,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from 'components/ui/card'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 import { type ReactNode } from 'react'
 import { type ColumnDef } from '@tanstack/react-table'
@@ -56,50 +62,8 @@ export default function PaginatedTable<T>({
 }: PaginatedTableProps<T>) {
   return (
     <Card className="flex min-h-0 flex-1 flex-col">
-      <CardHeader className="flex-row items-center justify-between">
-        <CardTitle>
-          {title} ({total})
-        </CardTitle>
-        <div className="flex items-center gap-2">
-          <Select
-            value={String(perPage)}
-            onValueChange={(v) => onPageSizeChange(Number(v))}
-          >
-            <SelectTrigger className="w-24">
-              <SelectValue />
-            </SelectTrigger>
-            <SelectContent>
-              {PAGE_SIZE_OPTIONS.map((o) => (
-                <SelectItem key={o.value} value={o.value}>
-                  {o.label}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-          <div className="flex items-center gap-1">
-            <Button
-              variant="outline"
-              size="icon"
-              aria-label="前のページ"
-              disabled={currentPage <= 1}
-              onClick={() => onPageChange(currentPage - 1)}
-            >
-              <ChevronLeft className="size-4" />
-            </Button>
-            <span className="text-sm px-2">
-              {currentPage} / {lastPage}
-            </span>
-            <Button
-              variant="outline"
-              size="icon"
-              aria-label="次のページ"
-              disabled={currentPage >= lastPage}
-              onClick={() => onPageChange(currentPage + 1)}
-            >
-              <ChevronRight className="size-4" />
-            </Button>
-          </div>
-        </div>
+      <CardHeader>
+        <CardTitle>{title}</CardTitle>
       </CardHeader>
       <CardContent className="min-h-0 flex-1 p-0">
         <DataTable
@@ -113,6 +77,50 @@ export default function PaginatedTable<T>({
           scrollAreaClassName="h-full overflow-auto"
         />
       </CardContent>
+      <CardFooter className="justify-between border-t pt-4">
+        <div className="text-sm text-muted-foreground">全 {total} 件</div>
+        <div className="flex items-center gap-2">
+          <Select
+            value={String(perPage)}
+            onValueChange={(v) => onPageSizeChange(Number(v))}
+          >
+            <SelectTrigger size="sm" className="w-24">
+              <SelectValue />
+            </SelectTrigger>
+            {/* footer 下端の Select なので上方向に開く */}
+            <SelectContent position="popper" side="top" align="end">
+              {PAGE_SIZE_OPTIONS.map((o) => (
+                <SelectItem key={o.value} value={o.value}>
+                  {o.label}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+          <div className="flex items-center gap-1">
+            <Button
+              variant="outline"
+              size="icon-sm"
+              aria-label="前のページ"
+              disabled={currentPage <= 1}
+              onClick={() => onPageChange(currentPage - 1)}
+            >
+              <ChevronLeft className="size-4" />
+            </Button>
+            <span className="px-2 text-sm">
+              {currentPage} / {lastPage}
+            </span>
+            <Button
+              variant="outline"
+              size="icon-sm"
+              aria-label="次のページ"
+              disabled={currentPage >= lastPage}
+              onClick={() => onPageChange(currentPage + 1)}
+            >
+              <ChevronRight className="size-4" />
+            </Button>
+          </div>
+        </div>
+      </CardFooter>
     </Card>
   )
 }
