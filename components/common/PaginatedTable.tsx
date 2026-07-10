@@ -10,7 +10,9 @@ import {
 } from 'components/ui/select'
 import { Card, CardContent, CardHeader, CardTitle } from 'components/ui/card'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
-import DataTable, { type ColumnDefinition } from 'components/common/DataTable'
+import { type ReactNode } from 'react'
+import { type ColumnDef } from '@tanstack/react-table'
+import DataTable from 'components/common/DataTable'
 
 const PAGE_SIZE_OPTIONS = [
   { value: '25', label: '25件' },
@@ -21,12 +23,12 @@ const PAGE_SIZE_OPTIONS = [
 
 interface PaginatedTableProps<T> {
   title: string
-  columnDefinitions: ColumnDefinition<T>[]
+  columns: ColumnDef<T, unknown>[]
   items: T[]
   trackBy?: keyof T | ((item: T) => string)
   loading?: boolean
   loadingText?: string
-  empty?: string
+  emptyText?: ReactNode
   currentPage: number
   lastPage: number
   perPage: number
@@ -38,12 +40,12 @@ interface PaginatedTableProps<T> {
 
 export default function PaginatedTable<T>({
   title,
-  columnDefinitions,
+  columns,
   items,
   trackBy,
   loading,
   loadingText,
-  empty,
+  emptyText,
   currentPage,
   lastPage,
   perPage,
@@ -100,18 +102,16 @@ export default function PaginatedTable<T>({
         </div>
       </CardHeader>
       <CardContent className="min-h-0 flex-1 p-0">
-        <div className="h-full overflow-auto [&>[data-slot=table-container]]:overflow-visible">
-          <DataTable
-            columnDefinitions={columnDefinitions}
-            items={items}
-            trackBy={trackBy}
-            loading={loading}
-            loadingText={loadingText}
-            empty={empty}
-            striped
-            onRowClick={onRowClick}
-          />
-        </div>
+        <DataTable
+          columns={columns}
+          data={items}
+          trackBy={trackBy}
+          loading={loading}
+          loadingText={loadingText}
+          emptyText={emptyText}
+          onRowClick={onRowClick}
+          scrollAreaClassName="h-full overflow-auto"
+        />
       </CardContent>
     </Card>
   )

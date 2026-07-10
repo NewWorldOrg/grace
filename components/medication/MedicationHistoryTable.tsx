@@ -1,6 +1,7 @@
 'use client'
 
 import { useRouter } from 'next/navigation'
+import { type ColumnDef } from '@tanstack/react-table'
 import { FileText } from 'lucide-react'
 import PaginatedTable from 'components/common/PaginatedTable'
 
@@ -11,6 +12,31 @@ interface MedicationRecord {
   takenAt: string
   hasNote?: boolean
 }
+
+const columns: ColumnDef<MedicationRecord, unknown>[] = [
+  {
+    id: 'name',
+    header: '薬名',
+    cell: ({ row }) => (
+      <span className="inline-flex items-center gap-1">
+        {row.original.name || '-'}
+        {row.original.hasNote && (
+          <FileText className="size-3.5 text-muted-foreground" />
+        )}
+      </span>
+    ),
+  },
+  {
+    id: 'amount',
+    header: '服薬量(mg)',
+    cell: ({ row }) => `${row.original.amount}mg`,
+  },
+  {
+    id: 'takenAt',
+    header: '服薬日時',
+    cell: ({ row }) => row.original.takenAt,
+  },
+]
 
 interface MedicationHistoryTableProps {
   items: MedicationRecord[]
@@ -38,34 +64,11 @@ export default function MedicationHistoryTable({
   return (
     <PaginatedTable
       title="履歴一覧"
-      columnDefinitions={[
-        {
-          id: 'name',
-          header: '薬名',
-          cell: (item) => (
-            <span className="inline-flex items-center gap-1">
-              {item.name || '-'}
-              {item.hasNote && (
-                <FileText className="size-3.5 text-muted-foreground" />
-              )}
-            </span>
-          ),
-        },
-        {
-          id: 'amount',
-          header: '服薬量(mg)',
-          cell: (item) => `${item.amount}mg`,
-        },
-        {
-          id: 'takenAt',
-          header: '服薬日時',
-          cell: (item) => item.takenAt,
-        },
-      ]}
+      columns={columns}
       items={items}
       trackBy="id"
       loading={loading}
-      empty="服薬履歴がありません"
+      emptyText="服薬履歴がありません"
       currentPage={currentPage}
       lastPage={lastPage}
       perPage={perPage}
