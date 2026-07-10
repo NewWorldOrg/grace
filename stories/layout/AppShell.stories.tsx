@@ -105,11 +105,11 @@ export const MedicationHistoryDetailWithBreadcrumbs: Story = {
     },
   },
   args: {
-    title: '服薬履歴詳細',
+    title: 'レボチロキシン - 服薬履歴詳細',
     breadcrumbs: [
       { text: 'Grace', href: '/dashboard' },
       { text: '服薬履歴', href: '/medication/history' },
-      { text: '服薬履歴詳細', href: '/medication/history/1' },
+      { text: 'レボチロキシン', href: '/medication/history/1' },
     ],
     children: (
       <div className="flex flex-col gap-5">
