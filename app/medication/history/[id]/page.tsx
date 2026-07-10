@@ -28,6 +28,7 @@ export default async function PageMedicationHistoryDetail({
 
   return (
     <AppShell
+      title={`${history.drugName ?? ''} - 服薬履歴詳細`}
       user={user ?? undefined}
       initialSidebarOpen={initialSidebarOpen}
       breadcrumbs={[

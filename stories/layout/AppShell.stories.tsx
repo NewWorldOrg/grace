@@ -19,6 +19,7 @@ const meta = {
   },
   args: {
     user: sampleUser,
+    title: '薬一覧',
   },
 } satisfies Meta<typeof AppShell>
 
@@ -27,9 +28,10 @@ type Story = StoryObj<typeof meta>
 
 export const Default: Story = {
   args: {
+    title: 'ダッシュボード',
     children: (
       <div className="flex flex-col gap-5">
-        <h1 className="text-2xl font-bold">ダッシュボード</h1>
+        <p className="text-sm text-muted-foreground">コンテンツエリア</p>
       </div>
     ),
   },
@@ -44,9 +46,10 @@ export const DrugListActive: Story = {
     },
   },
   args: {
+    title: '薬一覧',
     children: (
       <div className="flex flex-col gap-5">
-        <h1 className="text-2xl font-bold">薬一覧</h1>
+        <p className="text-sm text-muted-foreground">コンテンツエリア</p>
       </div>
     ),
   },
@@ -61,6 +64,7 @@ export const DrugDetailWithBreadcrumbs: Story = {
     },
   },
   args: {
+    title: 'レボチロキシン - 薬詳細',
     breadcrumbs: [
       { text: 'Grace', href: '/dashboard' },
       { text: '薬一覧', href: '/medication/drugs' },
@@ -68,7 +72,7 @@ export const DrugDetailWithBreadcrumbs: Story = {
     ],
     children: (
       <div className="flex flex-col gap-5">
-        <h1 className="text-2xl font-bold">レボチロキシン</h1>
+        <p className="text-sm text-muted-foreground">コンテンツエリア</p>
       </div>
     ),
   },
@@ -83,9 +87,10 @@ export const MedicationHistoryActive: Story = {
     },
   },
   args: {
+    title: '服薬履歴',
     children: (
       <div className="flex flex-col gap-5">
-        <h1 className="text-2xl font-bold">服薬履歴</h1>
+        <p className="text-sm text-muted-foreground">コンテンツエリア</p>
       </div>
     ),
   },
@@ -100,14 +105,15 @@ export const MedicationHistoryDetailWithBreadcrumbs: Story = {
     },
   },
   args: {
+    title: 'レボチロキシン - 服薬履歴詳細',
     breadcrumbs: [
       { text: 'Grace', href: '/dashboard' },
       { text: '服薬履歴', href: '/medication/history' },
-      { text: '服薬履歴詳細', href: '/medication/history/1' },
+      { text: 'レボチロキシン', href: '/medication/history/1' },
     ],
     children: (
       <div className="flex flex-col gap-5">
-        <h1 className="text-2xl font-bold">服薬履歴詳細</h1>
+        <p className="text-sm text-muted-foreground">コンテンツエリア</p>
       </div>
     ),
   },
@@ -122,9 +128,10 @@ export const SettingsActive: Story = {
     },
   },
   args: {
+    title: '設定',
     children: (
       <div className="flex flex-col gap-5">
-        <h1 className="text-2xl font-bold">設定</h1>
+        <p className="text-sm text-muted-foreground">コンテンツエリア</p>
       </div>
     ),
   },

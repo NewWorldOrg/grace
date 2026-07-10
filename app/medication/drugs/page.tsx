@@ -37,7 +37,11 @@ export default async function PageDrugs({
   }))
 
   return (
-    <AppShell user={user ?? undefined} initialSidebarOpen={initialSidebarOpen}>
+    <AppShell
+      title="薬一覧"
+      user={user ?? undefined}
+      initialSidebarOpen={initialSidebarOpen}
+    >
       <DrugListPage
         items={items}
         currentPage={data?.currentPage ?? 1}

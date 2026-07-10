@@ -85,7 +85,6 @@ export default function DrugListPage({
   if (discordLinked === false) {
     return (
       <div className="flex h-full flex-col gap-5">
-        <h1 className="text-2xl font-bold">薬一覧</h1>
         <DiscordLinkPrompt>
           <DrugListTable
             items={MOCK_ITEMS}
@@ -103,8 +102,7 @@ export default function DrugListPage({
 
   return (
     <div className="flex h-full flex-col gap-5">
-      <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold">薬一覧</h1>
+      <div className="flex items-center justify-end">
         <Button onClick={() => setModalVisible(true)}>薬を登録</Button>
       </div>
       <DrugListTable

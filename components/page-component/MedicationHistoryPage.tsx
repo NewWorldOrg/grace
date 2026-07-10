@@ -100,7 +100,6 @@ export default function MedicationHistoryPage({
   if (discordLinked === false) {
     return (
       <div className="flex h-full flex-col gap-5">
-        <h1 className="text-2xl font-bold">服薬履歴</h1>
         <DiscordLinkPrompt>
           <MedicationHistoryTable
             items={MOCK_ITEMS}
@@ -118,12 +117,11 @@ export default function MedicationHistoryPage({
 
   return (
     <div className="flex h-full flex-col gap-5">
-      <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold">服薬履歴</h1>
-        {drugs.length > 0 && (
+      {drugs.length > 0 && (
+        <div className="flex items-center justify-end">
           <Button onClick={() => setModalVisible(true)}>服薬を記録</Button>
-        )}
-      </div>
+        </div>
+      )}
       <MedicationHistoryTable
         items={items}
         currentPage={currentPage}

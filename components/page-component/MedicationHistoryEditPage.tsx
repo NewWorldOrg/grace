@@ -59,8 +59,6 @@ export default function MedicationHistoryEditPage({
         handleSubmit()
       }}
     >
-      <h1 className="text-2xl font-bold">服薬履歴を編集</h1>
-
       <Card>
         <CardHeader>
           <CardTitle>基本情報</CardTitle>

@@ -92,10 +92,13 @@ const NAV_EXTRA: NavItem[] = [
   { text: '設定', href: '/settings', icon: Settings },
 ]
 
+const ALL_NAV_ITEMS = [...NAV_GROUPS.flatMap((g) => g.items), ...NAV_EXTRA]
+
 const SIDEBAR_COLLAPSED_WIDTH = 56
 
 interface AppShellProps {
   children: React.ReactNode
+  title?: string
   user?: {
     name: string
     iconUrl: string | null
@@ -106,6 +109,7 @@ interface AppShellProps {
 
 export default function AppShell({
   children,
+  title,
   user,
   breadcrumbs,
   initialSidebarOpen = true,
@@ -135,8 +139,6 @@ export default function AppShell({
     },
     [router],
   )
-
-  const allNavItems = [...NAV_GROUPS.flatMap((g) => g.items), ...NAV_EXTRA]
 
   const sideNavContent = (
     <nav className="flex flex-col gap-1 py-2">
@@ -237,7 +239,7 @@ export default function AppShell({
               </Button>
             </div>
             <nav className="flex flex-1 flex-col items-center gap-1 py-2">
-              {allNavItems.map((item) => (
+              {ALL_NAV_ITEMS.map((item) => (
                 <button
                   type="button"
                   key={item.href}
@@ -303,12 +305,7 @@ export default function AppShell({
               <Menu className="size-4" />
             </Button>
           )}
-          <Link
-            href="/dashboard"
-            className="text-base font-bold hover:opacity-80"
-          >
-            Grace
-          </Link>
+          <h1 className="text-base font-semibold">{title ?? 'Grace'}</h1>
           <div className="flex-1" />
           <div className="flex items-center gap-1">
             <ThemeToggle />

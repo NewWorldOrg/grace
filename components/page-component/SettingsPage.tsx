@@ -50,8 +50,6 @@ export default function SettingsPage({ userName }: SettingsPageProps) {
 
   return (
     <div className="flex flex-col gap-5">
-      <h1 className="text-2xl font-bold">設定</h1>
-
       <DisplaySettings
         preference={preference}
         onChangePreference={setPreference}

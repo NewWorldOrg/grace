@@ -25,6 +25,7 @@ export default async function PageDrugDetail({
 
   return (
     <AppShell
+      title={`${drug.name ?? ''} - 薬詳細`}
       user={user ?? undefined}
       initialSidebarOpen={initialSidebarOpen}
       breadcrumbs={[
