@@ -49,8 +49,6 @@ export default function DrugEditPage({ drug }: DrugEditPageProps) {
         handleSubmit()
       }}
     >
-      <h1 className="text-2xl font-bold">薬を編集</h1>
-
       <Card>
         <CardHeader>
           <CardTitle>基本情報</CardTitle>

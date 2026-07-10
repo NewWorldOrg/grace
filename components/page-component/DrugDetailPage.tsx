@@ -20,8 +20,7 @@ export default function DrugDetailPage({ drug }: DrugDetailPageProps) {
 
   return (
     <div className="flex flex-col gap-5">
-      <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold">{drug.name || '薬詳細'}</h1>
+      <div className="flex items-center justify-end">
         <Button
           variant="outline"
           onClick={() => router.push(`/medication/drugs/${drug.id}/edit`)}

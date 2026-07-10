@@ -8,7 +8,11 @@ export default async function PageSettings() {
   const initialSidebarOpen = await getInitialSidebarOpen()
 
   return (
-    <AppShell user={user ?? undefined} initialSidebarOpen={initialSidebarOpen}>
+    <AppShell
+      title="設定"
+      user={user ?? undefined}
+      initialSidebarOpen={initialSidebarOpen}
+    >
       <SettingsPage userName={user?.name ?? ''} />
     </AppShell>
   )

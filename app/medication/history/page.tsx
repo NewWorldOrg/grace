@@ -47,7 +47,11 @@ export default async function PageMedicationHistory({
   }))
 
   return (
-    <AppShell user={user ?? undefined} initialSidebarOpen={initialSidebarOpen}>
+    <AppShell
+      title="服薬履歴"
+      user={user ?? undefined}
+      initialSidebarOpen={initialSidebarOpen}
+    >
       <MedicationHistoryPage
         items={items}
         currentPage={data?.currentPage ?? 1}

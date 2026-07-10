@@ -25,7 +25,11 @@ export default async function PageDashboard() {
   }))
 
   return (
-    <AppShell user={user ?? undefined} initialSidebarOpen={initialSidebarOpen}>
+    <AppShell
+      title="ダッシュボード"
+      user={user ?? undefined}
+      initialSidebarOpen={initialSidebarOpen}
+    >
       <DashboardPage
         histories={histories}
         discordLinked={!!user?.discordUserId}

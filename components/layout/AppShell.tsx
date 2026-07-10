@@ -94,20 +94,11 @@ const NAV_EXTRA: NavItem[] = [
 
 const ALL_NAV_ITEMS = [...NAV_GROUPS.flatMap((g) => g.items), ...NAV_EXTRA]
 
-/** ヘッダーに表示するページタイトル — アクティブなナビ項目から導出する */
-function usePageTitle() {
-  const pathname = usePathname()
-  return (
-    ALL_NAV_ITEMS.find(
-      (item) => pathname === item.href || pathname.startsWith(`${item.href}/`),
-    )?.text ?? 'Grace'
-  )
-}
-
 const SIDEBAR_COLLAPSED_WIDTH = 56
 
 interface AppShellProps {
   children: React.ReactNode
+  title?: string
   user?: {
     name: string
     iconUrl: string | null
@@ -118,6 +109,7 @@ interface AppShellProps {
 
 export default function AppShell({
   children,
+  title,
   user,
   breadcrumbs,
   initialSidebarOpen = true,
@@ -125,7 +117,6 @@ export default function AppShell({
   const pathname = usePathname()
   const router = useRouter()
   const isMobile = useIsMobile()
-  const pageTitle = usePageTitle()
   const [sidebarOpen, setSidebarOpenState] = useState(initialSidebarOpen)
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [groupOpen, setGroupOpen] = useState(true)
@@ -314,7 +305,7 @@ export default function AppShell({
               <Menu className="size-4" />
             </Button>
           )}
-          <h1 className="text-base font-semibold">{pageTitle}</h1>
+          <h1 className="text-base font-semibold">{title ?? 'Grace'}</h1>
           <div className="flex-1" />
           <div className="flex items-center gap-1">
             <ThemeToggle />

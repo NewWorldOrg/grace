@@ -57,8 +57,7 @@ export default function MedicationHistoryDetailPage({
 
   return (
     <div className="flex flex-col gap-5">
-      <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold">服薬履歴詳細</h1>
+      <div className="flex items-center justify-end">
         <div className="flex items-center gap-2">
           <AlertDialog>
             <AlertDialogTrigger asChild>
