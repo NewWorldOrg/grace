@@ -11,6 +11,7 @@ import {
   SelectValue,
 } from 'components/ui/select'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from 'components/ui/tabs'
+import { type ColumnDef } from '@tanstack/react-table'
 import DataTable from 'components/common/DataTable'
 import DiscordLinkPrompt from 'components/common/DiscordLinkPrompt'
 import {
@@ -315,9 +316,34 @@ function WeeklyCountChart({ histories }: { histories: MedicationHistory[] }) {
   )
 }
 
+interface RecentHistoryItem {
+  id: string
+  name: string
+  amount: number
+  takenAt: string
+}
+
+const recentHistoryColumns: ColumnDef<RecentHistoryItem, unknown>[] = [
+  {
+    id: 'name',
+    header: '薬名',
+    cell: ({ row }) => row.original.name,
+  },
+  {
+    id: 'amount',
+    header: '服薬量(mg)',
+    cell: ({ row }) => `${row.original.amount}mg`,
+  },
+  {
+    id: 'takenAt',
+    header: '服薬日時',
+    cell: ({ row }) => row.original.takenAt,
+  },
+]
+
 function RecentHistoryTable({ histories }: { histories: MedicationHistory[] }) {
   const router = useRouter()
-  const recentItems = histories.map((h) => ({
+  const recentItems: RecentHistoryItem[] = histories.map((h) => ({
     id: String(h.id),
     name: h.drugName,
     amount: h.amount,
@@ -331,32 +357,12 @@ function RecentHistoryTable({ histories }: { histories: MedicationHistory[] }) {
       </CardHeader>
       <CardContent className="p-0">
         <DataTable
-          columnDefinitions={[
-            {
-              id: 'name',
-              header: '薬名',
-              cell: (item) => item.name,
-              width: '40%',
-            },
-            {
-              id: 'amount',
-              header: '服薬量(mg)',
-              cell: (item) => `${item.amount}mg`,
-              width: '25%',
-            },
-            {
-              id: 'takenAt',
-              header: '服薬日時',
-              cell: (item) => item.takenAt,
-              width: '35%',
-            },
-          ]}
-          items={recentItems}
+          columns={recentHistoryColumns}
+          data={recentItems}
           trackBy="id"
-          striped
-          empty="服薬履歴はありません"
+          emptyText="服薬履歴はありません"
           onRowClick={(item) => router.push(`/medication/history/${item.id}`)}
-          maxHeight="500px"
+          scrollAreaClassName="max-h-[500px] overflow-auto"
         />
       </CardContent>
     </Card>
