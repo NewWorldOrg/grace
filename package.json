@@ -53,6 +53,6 @@
     "eslint-plugin-storybook": "^10.6.3",
     "openapi-typescript": "^7.13.0",
     "storybook": "^10.6.3",
-    "typescript": "^5.9.3"
+    "typescript": "^6.0.3"
   }
 }
