@@ -17,8 +17,8 @@ import {
 } from 'components/ui/card'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 import { type ReactNode } from 'react'
-import { type ColumnDef } from '@tanstack/react-table'
-import DataTable from 'components/common/DataTable'
+import { type RowData } from '@tanstack/react-table'
+import DataTable, { type DataTableColumnDef } from 'components/common/DataTable'
 
 const PAGE_SIZE_OPTIONS = [
   { value: '25', label: '25件' },
@@ -27,9 +27,9 @@ const PAGE_SIZE_OPTIONS = [
   { value: '200', label: '200件' },
 ]
 
-interface PaginatedTableProps<T> {
+interface PaginatedTableProps<T extends RowData> {
   title: string
-  columns: ColumnDef<T, unknown>[]
+  columns: DataTableColumnDef<T>[]
   items: T[]
   trackBy?: keyof T | ((item: T) => string)
   loading?: boolean
@@ -44,7 +44,7 @@ interface PaginatedTableProps<T> {
   onRowClick?: (item: T) => void
 }
 
-export default function PaginatedTable<T>({
+export default function PaginatedTable<T extends RowData>({
   title,
   columns,
   items,

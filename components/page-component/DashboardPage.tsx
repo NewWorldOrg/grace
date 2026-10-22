@@ -11,8 +11,7 @@ import {
   SelectValue,
 } from 'components/ui/select'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from 'components/ui/tabs'
-import { type ColumnDef } from '@tanstack/react-table'
-import DataTable from 'components/common/DataTable'
+import DataTable, { type DataTableColumnDef } from 'components/common/DataTable'
 import DiscordLinkPrompt from 'components/common/DiscordLinkPrompt'
 import {
   Bar,
@@ -323,7 +322,7 @@ interface RecentHistoryItem {
   takenAt: string
 }
 
-const recentHistoryColumns: ColumnDef<RecentHistoryItem, unknown>[] = [
+const recentHistoryColumns: DataTableColumnDef<RecentHistoryItem>[] = [
   {
     id: 'name',
     header: '薬名',
