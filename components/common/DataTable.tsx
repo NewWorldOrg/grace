@@ -3,9 +3,11 @@
 import type { CSSProperties, ReactNode } from 'react'
 import {
   type ColumnDef,
-  useReactTable,
-  getCoreRowModel,
+  type RowData,
   flexRender,
+  metaHelper,
+  tableFeatures,
+  useTable,
 } from '@tanstack/react-table'
 import { cn } from '@/lib/utils'
 import {
@@ -17,8 +19,25 @@ import {
   TableRow,
 } from 'components/ui/table'
 
-interface DataTableProps<TData> {
-  columns: ColumnDef<TData, unknown>[]
+export interface DataTableColumnMeta {
+  sortingField?: string
+  truncate?: boolean
+  sticky?: 'left'
+  minWidthPx?: number
+  stickyOffsetPx?: number
+}
+
+const features = tableFeatures({
+  columnMeta: metaHelper<DataTableColumnMeta>(),
+})
+
+export type DataTableColumnDef<TData extends RowData> = ColumnDef<
+  typeof features,
+  TData
+>
+
+interface DataTableProps<TData extends RowData> {
+  columns: DataTableColumnDef<TData>[]
   data: TData[]
   trackBy?: keyof TData | ((row: TData) => string)
   loading?: boolean
@@ -28,7 +47,7 @@ interface DataTableProps<TData> {
   scrollAreaClassName?: string
 }
 
-export default function DataTable<TData>({
+export default function DataTable<TData extends RowData>({
   columns,
   data,
   trackBy,
@@ -38,13 +57,10 @@ export default function DataTable<TData>({
   onRowClick,
   scrollAreaClassName = 'h-full overflow-auto',
 }: DataTableProps<TData>) {
-  const table = useReactTable({
+  const table = useTable({
+    features,
     data,
     columns,
-    getCoreRowModel: getCoreRowModel(),
-    manualPagination: true,
-    manualSorting: true,
-    manualFiltering: true,
   })
 
   const getRowKey = (row: TData, index: number): string => {
@@ -142,7 +158,7 @@ export default function DataTable<TData>({
                   : undefined
               }
             >
-              {row.getVisibleCells().map((cell) => {
+              {row.getAllCells().map((cell) => {
                 const minWidthPx = cell.column.columnDef.meta?.minWidthPx
                 const cellStyle: CSSProperties | undefined = minWidthPx
                   ? { minWidth: `${minWidthPx}px` }

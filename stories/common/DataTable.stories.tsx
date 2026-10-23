@@ -1,7 +1,8 @@
 import type { Meta, StoryObj } from '@storybook/react'
-import { type ColumnDef } from '@tanstack/react-table'
 import { ExternalLink } from 'lucide-react'
-import DataTable from '../../components/common/DataTable'
+import DataTable, {
+  type DataTableColumnDef,
+} from '../../components/common/DataTable'
 
 interface Row {
   id: string
@@ -10,7 +11,7 @@ interface Row {
   url?: string
 }
 
-const columns: ColumnDef<Row, unknown>[] = [
+const columns: DataTableColumnDef<Row>[] = [
   { id: 'name', header: '薬名', cell: ({ row }) => row.original.name },
   {
     id: 'amount',
@@ -19,7 +20,7 @@ const columns: ColumnDef<Row, unknown>[] = [
   },
 ]
 
-const linkColumns: ColumnDef<Row, unknown>[] = [
+const linkColumns: DataTableColumnDef<Row>[] = [
   { id: 'name', header: '薬名', cell: ({ row }) => row.original.name },
   {
     id: 'url',

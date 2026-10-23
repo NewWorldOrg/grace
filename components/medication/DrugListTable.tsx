@@ -1,8 +1,8 @@
 'use client'
 
 import { useRouter } from 'next/navigation'
-import { type ColumnDef } from '@tanstack/react-table'
 import { FileText, ExternalLink } from 'lucide-react'
+import { type DataTableColumnDef } from 'components/common/DataTable'
 import PaginatedTable from 'components/common/PaginatedTable'
 
 interface Drug {
@@ -12,7 +12,7 @@ interface Drug {
   hasNote?: boolean
 }
 
-const columns: ColumnDef<Drug, unknown>[] = [
+const columns: DataTableColumnDef<Drug>[] = [
   {
     id: 'name',
     header: '薬名',
